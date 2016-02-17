@@ -64,6 +64,7 @@ public class ForecastFragment extends Fragment
     {
         //'\u2109' for Fahrenheit symbol and '\u2103' for Celsius symbol
         String[] filler = {
+                "Refresh to see forecast.",
                 "00 ℉",
                 "10 ℉",
                 "20 ℉",
@@ -96,7 +97,7 @@ public class ForecastFragment extends Fragment
         private String getReadableDateString(long time){
             // Because the API returns a unix timestamp (measured in seconds),
             // it must be converted to milliseconds in order to be converted to valid date.
-            SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE MMM dd");
+            SimpleDateFormat shortenedDateFormat = new SimpleDateFormat("EEE, MMM dd");
             return shortenedDateFormat.format(time);
         }
 
@@ -119,9 +120,8 @@ public class ForecastFragment extends Fragment
          * Fortunately parsing is easy:  constructor takes the JSON string and converts it
          * into an Object hierarchy for us.
          */
-        private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
-                throws JSONException {
-
+        private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)throws JSONException
+        {
             // These are the names of the JSON objects that need to be extracted.
             final String OWM_LIST = "list";
             final String OWM_WEATHER = "weather";
@@ -179,14 +179,13 @@ public class ForecastFragment extends Fragment
                 double low = temperatureObject.getDouble(OWM_MIN);
 
                 highAndLow = formatHighLows(high, low);
-                resultStrs[i] = day + " - " + description + " - " + highAndLow;
+                resultStrs[i] = day + " - " + description + " - " + highAndLow + "\u2103";
             }
-
-            for (String s : resultStrs) {
+            for (String s : resultStrs)
+            {
                 Log.v(LOG_TAG, "Forecast entry: " + s);
             }
             return resultStrs;
-
         }
 
         @Override
@@ -207,7 +206,7 @@ public class ForecastFragment extends Fragment
 
             String format = "json";
             String units = "metric";
-            int numDays = 7;
+            int numDays = 14;
 
             try
             {
@@ -222,7 +221,7 @@ public class ForecastFragment extends Fragment
                 */
                 //Another Alternative URL format that replaces both above. This one allows for changes to individual parameters
                 final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
-                final String QUERY_PARAM = "zip"; //changed from q. q gives a different city "Askola"
+                final String QUERY_PARAM = "zip"; //changed from 'q'. 'q' gives a different city: "Askola"
                 final String FORMAT_PARAM = "mode";
                 final String UNITS_PARAM = "units";
                 final String DAYS_PARAM = "cnt";
@@ -274,7 +273,7 @@ public class ForecastFragment extends Fragment
             catch (IOException e)
             {
                 Log.e(LOG_TAG, "Error ", e);
-                // If the code didn't successfully get the weather data, there's no point in attemping
+                // If the code didn't successfully get the weather data, there's no point in attempting
                 // to parse it.
                 return null;
             }
@@ -296,7 +295,8 @@ public class ForecastFragment extends Fragment
                     }
                 }
             }
-            try {
+            try
+            {
                 return getWeatherDataFromJson(forecastJsonStr,numDays);
             }
             catch(JSONException e)

@@ -24,30 +24,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {Snackbar.make(view, "", Snackbar.LENGTH_LONG).setAction("", null).show();}
         });
-
-        /*
-        Button enter = (Button) findViewById(R.id.enter_button);
-        enter.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                try
-                {
-                    EditText zipCode = (EditText) findViewById(R.id.zip_code);
-                    String zipCodeString = zipCode.getText().toString();
-                    //ForecastFragment forecastFragment = (ForecastFragment) getFragmentManager().findFragmentByTag("forecastFragment");
-                    //forecastFragment.FetchWeatherTask(zipCodeString);
-                }
-                catch(NumberFormatException e)
-                {
-                    EditText zipCode = (EditText) findViewById(R.id.zip_code);
-                    zipCode.setText("");
-                    zipCode.setHint("Invalid zip code.");
-                }
-            }
-        });
-        */
     }
 
     @Override

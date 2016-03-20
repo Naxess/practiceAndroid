@@ -134,6 +134,11 @@ public class ForecastFragment extends Fragment
             final String OWM_MIN = "min";
             final String OWM_DESCRIPTION = "main";
 
+            final String OWM_SPEED = "speed"; //wind speed
+            final String OWM_DEG = "deg"; //wind direction(degree)
+            final String OWM_PRESSURE = "pressure";
+            final String OWM_HUMIDITY = "humidity";
+
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
             JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
 
@@ -145,26 +150,60 @@ public class ForecastFragment extends Fragment
             dayTime = new Time();
 
             String[] resultStrs = new String[numDays];
-            for(int i = 0; i < weatherArray.length(); i++) {
+            for(int i = 0; i < weatherArray.length(); i++)
+            {
                 String day;
                 String description;
                 String highAndLow;
 
+                //Grabs the weather information for the day(i)
+                JSONObject dayForecast = weatherArray.getJSONObject(i);
+
+                //DATE(day of week, Month/Day)
                 long dateTime;
                 dateTime = dayTime.setJulianDay(julianStartDay+i);
                 day = getReadableDateString(dateTime);
 
-                JSONObject dayForecast = weatherArray.getJSONObject(i);
-
+                //WEATHER DESCRIPTION(Snow, rain, clear, etc..)
                 JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
                 description = weatherObject.getString(OWM_DESCRIPTION);
 
+                //TEMPERATURES(High and low temperatures of the day)
                 JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
                 double high = temperatureObject.getDouble(OWM_MAX);
                 double low = temperatureObject.getDouble(OWM_MIN);
-
                 highAndLow = formatHighLows(high, low);
-                resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ")";
+
+                //HUMIDITY (In progress...) //App does not crash, but won't display the weather results
+                //JSONObject humidityObject = dayForecast.getJSONObject(OWM_HUMIDITY);
+                //int humid = humidityObject.getInt(OWM_HUMIDITY);
+                int humidity = weatherArray.getJSONObject(i).getInt(OWM_HUMIDITY);
+
+                //WIND SPEED
+                double speed = weatherArray.getJSONObject(i).getDouble(OWM_SPEED);
+
+                //WIND DIRECTION aka DEGREES
+                String direction = "-";
+                int deg = weatherArray.getJSONObject(i).getInt(OWM_DEG);
+                if(deg > 45 && deg <= 135)
+                {
+                    direction = "N";
+                }
+                else if(deg > 135 && deg <= 225)
+                {
+                    direction = "W";
+                }
+                else if(deg > 225 && deg <= 315)
+                {
+                    direction = "S";
+                }
+                else if((deg > 315 && deg <= 360) || (deg >= 0 && deg <= 45))
+                {
+                    direction = "E";
+                }
+
+                resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction;
+                //resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ")";
             }
             for (String s : resultStrs)
             {

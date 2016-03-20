@@ -174,9 +174,7 @@ public class ForecastFragment extends Fragment
                 double low = temperatureObject.getDouble(OWM_MIN);
                 highAndLow = formatHighLows(high, low);
 
-                //HUMIDITY (In progress...) //App does not crash, but won't display the weather results
-                //JSONObject humidityObject = dayForecast.getJSONObject(OWM_HUMIDITY);
-                //int humid = humidityObject.getInt(OWM_HUMIDITY);
+                //HUMIDITY
                 int humidity = weatherArray.getJSONObject(i).getInt(OWM_HUMIDITY);
 
                 //WIND SPEED
@@ -203,7 +201,6 @@ public class ForecastFragment extends Fragment
                 }
 
                 resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction;
-                //resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ")";
             }
             for (String s : resultStrs)
             {

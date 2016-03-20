@@ -187,19 +187,19 @@ public class ForecastFragment extends Fragment
                 int deg = weatherArray.getJSONObject(i).getInt(OWM_DEG);
                 if(deg > 45 && deg <= 135)
                 {
-                    direction = "N";
+                    direction = "North";
                 }
                 else if(deg > 135 && deg <= 225)
                 {
-                    direction = "W";
+                    direction = "West";
                 }
                 else if(deg > 225 && deg <= 315)
                 {
-                    direction = "S";
+                    direction = "South";
                 }
                 else if((deg > 315 && deg <= 360) || (deg >= 0 && deg <= 45))
                 {
-                    direction = "E";
+                    direction = "East";
                 }
 
                 resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction;

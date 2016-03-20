@@ -59,7 +59,6 @@ public class ForecastFragment extends Fragment
     {
         TextView zipCode = (TextView) getView().findViewById(R.id.zip_code);
         String zipCodeString = zipCode.getText().toString();
-        //int zipCodeParsed = Integer.parseInt(zipCodeString);
         int id = item.getItemId();
         if(id == R.id.action_refresh)
         {
@@ -88,20 +87,24 @@ public class ForecastFragment extends Fragment
         enter = (Button) rootView.findViewById(R.id.enter_button);
         zipCode = (EditText) rootView.findViewById(R.id.zip_code);
 
-        enter.setOnClickListener(new View.OnClickListener() {
+        enter.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                try {
+            public void onClick(View v)
+            {
+                try
+                {
                     String zipCodeString = zipCode.getText().toString();
                     FetchWeatherTask weatherTask = new FetchWeatherTask();
                     weatherTask.execute(zipCodeString);
-                } catch (NumberFormatException e) {
+                }
+                catch (NumberFormatException e)
+                {
                     zipCode.setText("");
                     zipCode.setHint("Invalid zip code.");
                 }
             }
         });
-
         return rootView;
     }
     public class FetchWeatherTask extends AsyncTask<String,Void,String[]>
@@ -147,11 +150,11 @@ public class ForecastFragment extends Fragment
                 String description;
                 String highAndLow;
 
-                JSONObject dayForecast = weatherArray.getJSONObject(i);
-
                 long dateTime;
                 dateTime = dayTime.setJulianDay(julianStartDay+i);
                 day = getReadableDateString(dateTime);
+
+                JSONObject dayForecast = weatherArray.getJSONObject(i);
 
                 JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
                 description = weatherObject.getString(OWM_DESCRIPTION);

@@ -55,4 +55,14 @@
         android:layout_alignParentBottom="true"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test2nd"
+        android:id="@+id/test_button"
+
+        android:layout_above="@+id/listview_forecast"
+        android:layout_toLeftOf="@+id/enter_button"
+        android:layout_toStartOf="@+id/enter_button" />
+
 </RelativeLayout>

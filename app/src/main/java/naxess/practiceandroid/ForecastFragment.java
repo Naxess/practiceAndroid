@@ -1,5 +1,6 @@
 package naxess.practiceandroid;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class ForecastFragment extends Fragment
 {
     Button enter;
     EditText zipCode;
+    Button testButton;
 
     static ArrayAdapter<String> a;
     public ForecastFragment()
@@ -105,6 +107,17 @@ public class ForecastFragment extends Fragment
                 }
             }
         });
+
+        testButton = (Button)rootView.findViewById(R.id.test_button);
+        testButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent("naxess.practiceandroid.ExtraDetails");
+                startActivity(intent);
+            }
+        });
+
         return rootView;
     }
     public class FetchWeatherTask extends AsyncTask<String,Void,String[]>

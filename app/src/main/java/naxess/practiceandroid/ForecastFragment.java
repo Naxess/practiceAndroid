@@ -33,7 +33,9 @@ import java.util.List;
 public class ForecastFragment extends Fragment
 {
     static ArrayAdapter<String> a;
-    public ForecastFragment() {
+    public ForecastFragment()
+    {
+
     }
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -53,7 +55,7 @@ public class ForecastFragment extends Fragment
         if(id == R.id.action_refresh)
         {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("11788");
+            weatherTask.execute("11788"); //Need to find a way to grab the zip code from MainActivity.java
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -64,19 +66,8 @@ public class ForecastFragment extends Fragment
     {
         //'\u2109' for Fahrenheit symbol and '\u2103' for Celsius symbol
         String[] filler = {
-                "Refresh to see forecast.",
-                "00 ℉",
-                "10 ℉",
-                "20 ℉",
-                "30 ℉",
-                "40 ℉",
-                "50 ℉",
-                "60 ℉",
-                "70 ℉",
-                "80 ℉",
-                "100 ℉",
-                "110 ℉",
-                "120 ℉"};
+                "Enter zip code to see forecast"
+        };
         List<String> anArray = new ArrayList<String>(Arrays.asList(filler));
 
         a = new ArrayAdapter<String>(getActivity(),R.layout.list_item_forecast,R.id.list_item_forecast_textview,anArray);

@@ -65,7 +65,7 @@ public class ForecastFragment extends Fragment
         if(id == R.id.action_refresh)
         {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute(zipCodeString); //Need to find a way to grab the zip code from MainActivity.java. String resources unmodifiable.
+            weatherTask.execute(zipCodeString);
             return true;
         }
         return super.onOptionsItemSelected(item);

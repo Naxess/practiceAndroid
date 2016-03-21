@@ -6,9 +6,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 
-public class ExtraDetails extends AppCompatActivity {
-
+public class ExtraDetails extends AppCompatActivity
+{
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -25,6 +26,14 @@ public class ExtraDetails extends AppCompatActivity {
                         .setAction("", null).show();
             }
         });
+        Button back = (Button)findViewById(R.id.back_button);
+        back.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+        });
     }
-
 }

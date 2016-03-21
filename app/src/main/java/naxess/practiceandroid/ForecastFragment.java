@@ -108,12 +108,22 @@ public class ForecastFragment extends Fragment
             }
         });
 
-        testButton = (Button)rootView.findViewById(R.id.test_button);
+        testButton = (Button)rootView.findViewById(R.id.test_button); //WILL NOT BE IN THE FINAL VERSION. TESTING PURPOSES ONLY
         testButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v)
             {
                 Intent intent = new Intent("naxess.practiceandroid.ExtraDetails");
+
+                ///* IN PROGRESS
+                intent.putExtra("speed","9000");
+                /*
+                intent.putExtra("deg",OWM_DEG);
+                intent.putExtra("humidity",OWM_HUMIDITY);
+                intent.putExtra("pressure",OWM_PRESSURE);
+                intent.putExtra("date", dateTime);
+                intent.putExtra("i",i);
+                */
                 startActivity(intent);
             }
         });

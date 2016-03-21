@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,8 +40,10 @@ public class ForecastFragment extends Fragment
     Button enter;
     EditText zipCode;
     Button testButton;
-
+    ListView lv;
+    static String copyResultStrs [];
     static ArrayAdapter<String> a;
+
     public ForecastFragment()
     {
 
@@ -83,8 +86,29 @@ public class ForecastFragment extends Fragment
 
         View rootView = inflater.inflate(R.layout.fragment_main,container,false);
 
-        ListView lv = (ListView) rootView.findViewById(R.id.listview_forecast);
+        lv = (ListView) rootView.findViewById(R.id.listview_forecast);
         lv.setAdapter(a);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+
+                Intent intent = new Intent("naxess.practiceandroid.ExtraDetails");
+                int day = position;
+                String aa = (String)lv.getItemAtPosition(position);
+                try
+                {
+                    String testS = FetchWeatherTask.getWeatherFromJson(copyResultStrs, day);
+                    intent.putExtra("data",testS);
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+                startActivity(intent);
+            }
+        });
 
         enter = (Button) rootView.findViewById(R.id.enter_button);
         zipCode = (EditText) rootView.findViewById(R.id.zip_code);
@@ -109,29 +133,17 @@ public class ForecastFragment extends Fragment
         });
 
         testButton = (Button)rootView.findViewById(R.id.test_button); //WILL NOT BE IN THE FINAL VERSION. TESTING PURPOSES ONLY
-        testButton.setOnClickListener(new View.OnClickListener()
-        {
+        testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent("naxess.practiceandroid.ExtraDetails");
-
-                ///* IN PROGRESS
-                intent.putExtra("speed","9000");
-                /*
-                intent.putExtra("deg",OWM_DEG);
-                intent.putExtra("humidity",OWM_HUMIDITY);
-                intent.putExtra("pressure",OWM_PRESSURE);
-                intent.putExtra("date", dateTime);
-                intent.putExtra("i",i);
-                */
-                startActivity(intent);
+                zipCode.setText("");
             }
         });
 
         return rootView;
     }
-    public class FetchWeatherTask extends AsyncTask<String,Void,String[]>
+    public static class FetchWeatherTask extends AsyncTask<String,Void,String[]>
     {
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
@@ -172,7 +184,7 @@ public class ForecastFragment extends Fragment
             int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
 
             dayTime = new Time();
-
+            copyResultStrs = new String[numDays];
             String[] resultStrs = new String[numDays];
             for(int i = 0; i < weatherArray.length(); i++)
             {
@@ -226,15 +238,22 @@ public class ForecastFragment extends Fragment
 
                 //PRESSURE
                 double pressure = weatherArray.getJSONObject(i).getDouble(OWM_PRESSURE);
-
+                copyResultStrs[i] = humidity + ", " + speed + ", " + direction + "," + pressure;
                 resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction + ", " + pressure;
+
             }
             for (String s : resultStrs)
             {
                 Log.v(LOG_TAG, "Forecast entry: " + s);
             }
+            //copyResultStrs = resultStrs;
             return resultStrs;
         }
+        private static String getWeatherFromJson(String [] copyResultStrs, int day) throws JSONException
+        {
+            return copyResultStrs[day];
+        }
+
 
         @Override
         protected String[] doInBackground(String... params)

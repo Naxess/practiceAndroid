@@ -109,7 +109,8 @@ public class ForecastFragment extends Fragment
         });
 
         testButton = (Button)rootView.findViewById(R.id.test_button); //WILL NOT BE IN THE FINAL VERSION. TESTING PURPOSES ONLY
-        testButton.setOnClickListener(new View.OnClickListener(){
+        testButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {
@@ -223,7 +224,10 @@ public class ForecastFragment extends Fragment
                     direction = "East";
                 }
 
-                resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction;
+                //PRESSURE
+                double pressure = weatherArray.getJSONObject(i).getDouble(OWM_PRESSURE);
+
+                resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction + ", " + pressure;
             }
             for (String s : resultStrs)
             {

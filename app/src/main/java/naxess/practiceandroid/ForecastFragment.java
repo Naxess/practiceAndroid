@@ -246,7 +246,6 @@ public class ForecastFragment extends Fragment
             {
                 Log.v(LOG_TAG, "Forecast entry: " + s);
             }
-            //copyResultStrs = resultStrs;
             return resultStrs;
         }
         private static String getWeatherFromJson(String [] copyResultStrs, int day) throws JSONException

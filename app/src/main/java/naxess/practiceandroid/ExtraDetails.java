@@ -39,7 +39,7 @@ public class ExtraDetails extends AppCompatActivity
         });
         Intent intent = getIntent();
         String speed = intent.getStringExtra("data");
-        TextView sampleText = (TextView)findViewById(R.id.wind_speed);
+        TextView sampleText = (TextView)findViewById(R.id.details);
         sampleText.setText(speed);
     }
 }

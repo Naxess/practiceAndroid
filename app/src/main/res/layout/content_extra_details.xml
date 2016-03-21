@@ -24,33 +24,10 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/wind_speed"
-        android:hint="Wind speed"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/wind_deg"
-        android:hint="Wind direction"
-        android:layout_below="@id/wind_speed"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/pressure"
-        android:hint="Pressure"
-        android:layout_below="@id/wind_deg"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:id="@+id/humidity"
-        android:hint="Humidity"
-        android:layout_below="@id/pressure"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/details"
+        android:hint="Details"
         />
 
 </RelativeLayout>

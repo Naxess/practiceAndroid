@@ -238,9 +238,13 @@ public class ForecastFragment extends Fragment
 
                 //PRESSURE
                 double pressure = weatherArray.getJSONObject(i).getDouble(OWM_PRESSURE);
-                copyResultStrs[i] = humidity + ", " + speed + ", " + direction + "," + pressure;
-                resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction + ", " + pressure;
-
+                copyResultStrs[i] = day
+                        + "\n\nHumidity: " + humidity
+                        + "\nWind Speed: " + speed
+                        + "\nWind Direction: " + direction
+                        + "\nPressure: " + pressure;
+                //resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") " + humidity + ", " + speed + ", " + direction + ", " + pressure; //DRIVER CODE
+                resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") ";
             }
             for (String s : resultStrs)
             {

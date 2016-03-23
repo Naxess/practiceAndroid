@@ -99,6 +99,7 @@ public class ForecastFragment extends Fragment
                 int day = position;
                 if(empty == false)
                 {
+                    intent.putExtra("doorbell","");
                     try
                     {
                         String testS = FetchWeatherTask.getWeatherFromJson(copyResultStrs, day);
@@ -109,8 +110,10 @@ public class ForecastFragment extends Fragment
                         e.printStackTrace();
                     }
                 }
-                else
-                    intent.putExtra("doorbell","nobodyHome");
+                else if(empty == true)
+                {
+                    intent.putExtra("doorbell", "nobodyHome");
+                }
                 startActivity(intent);
             }
         });

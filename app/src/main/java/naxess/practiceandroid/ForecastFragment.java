@@ -45,7 +45,7 @@ public class ForecastFragment extends Fragment
     Button testButton;
     ListView lv;
     CheckBox checkBox;
-    static String location;
+    //static String location;
     static String copyResultStrs [];
     static ArrayAdapter<String> a;
     static boolean empty = true;

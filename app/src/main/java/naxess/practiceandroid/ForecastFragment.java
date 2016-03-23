@@ -229,8 +229,8 @@ public class ForecastFragment extends Fragment
             final String OWM_PRESSURE = "pressure";
             final String OWM_HUMIDITY = "humidity";
 
-            final String OWM_CITY = "city";
-            final String OWM_NAME = "name";
+            //final String OWM_CITY = "city";
+            //final String OWM_NAME = "name";
 
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
             JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);

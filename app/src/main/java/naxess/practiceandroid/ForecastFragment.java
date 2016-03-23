@@ -45,10 +45,10 @@ public class ForecastFragment extends Fragment
     Button testButton;
     ListView lv;
     CheckBox checkBox;
+    static String location;
     static String copyResultStrs [];
     static ArrayAdapter<String> a;
     static boolean empty = true;
-    static boolean saved = false;
 
     public ForecastFragment()
     {
@@ -59,7 +59,6 @@ public class ForecastFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        //loadSavedPreferences();
     }
     private void loadSavedPreferences()
     {
@@ -191,7 +190,7 @@ public class ForecastFragment extends Fragment
                 }
                 else
                 {
-
+                    //Nothing.
                 }
             }
         });
@@ -230,15 +229,24 @@ public class ForecastFragment extends Fragment
             final String OWM_PRESSURE = "pressure";
             final String OWM_HUMIDITY = "humidity";
 
+            final String OWM_CITY = "city";
+            final String OWM_NAME = "name";
+
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
             JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
 
             Time dayTime = new Time();
             dayTime.setToNow();
-
             int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
-
             dayTime = new Time();
+
+            //LOCATION
+            /*
+            JSONArray city = forecastJson.getJSONArray(OWM_CITY);
+            JSONObject name = city.getJSONObject(0);
+            location = name.getString(OWM_NAME);
+            */
+
             copyResultStrs = new String[numDays];
             String[] resultStrs = new String[numDays];
             for(int i = 0; i < weatherArray.length(); i++)
@@ -303,17 +311,18 @@ public class ForecastFragment extends Fragment
                         + "\nWind Direction: " + direction
                         + "\nPressure: " + pressure;
                 resultStrs[i] = day + " - " + description + " - (" + highAndLow + "\u2109" + ") ";
+                //resultStrs[i] = day + ", " + location; //DRIVER CODE. OMIT IN FINAL VERSION
             }
             for (String s : resultStrs)
             {
                 Log.v(LOG_TAG, "Forecast entry: " + s);
             }
-            empty = false;
+            empty = false; //Informs the program that the string to be sent to the extraDetails activity is not null
             return resultStrs;
         }
         private static String getWeatherFromJson(String [] copyResultStrs, int day) throws JSONException
         {
-            return copyResultStrs[day];
+            return copyResultStrs[day]; //Likely redundant code but code cleanup not the current priority
         }
 
 

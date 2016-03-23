@@ -41,9 +41,9 @@ public class ExtraDetails extends AppCompatActivity
         String doorbell = intent.getStringExtra("doorbell");
         if(doorbell.equalsIgnoreCase("nobodyHome"))
         {
-            String nobodyHome = "Please enter a valid zip code.";
+            String enterSomething = "Please enter a valid zip code.";
             TextView sampleText = (TextView)findViewById(R.id.details);
-            sampleText.setText(nobodyHome);
+            sampleText.setText(enterSomething);
         }
         else
         {

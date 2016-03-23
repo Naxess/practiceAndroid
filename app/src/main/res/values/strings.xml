@@ -5,4 +5,15 @@
     <string name="hello_world">Hello World</string>
     <string name="zip_code"></string>
     <string name="title_activity_extra_details">Additional Information</string>
+    <string-array name="titles">
+        <item>clear 1</item>
+        <item>fewclouds 2</item>
+        <item>scatteredclouds 3</item>
+        <item>brokenclouds 4</item>
+        <item>showerrain 5</item>
+        <item>rain 6</item>
+        <item>thunderstorm 7</item>
+        <item>snow 8</item>
+        <item>mist 9</item>
+    </string-array>
 </resources>

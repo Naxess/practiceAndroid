@@ -44,6 +44,8 @@ public class ForecastFragment extends Fragment
     static String copyResultStrs [];
     static ArrayAdapter<String> a;
 
+    //ArrayAdapter(Context context, int resource, int textViewResourceId, String[] objects);
+
     public ForecastFragment()
     {
 

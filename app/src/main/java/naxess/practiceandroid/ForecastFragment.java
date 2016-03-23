@@ -43,8 +43,7 @@ public class ForecastFragment extends Fragment
     ListView lv;
     static String copyResultStrs [];
     static ArrayAdapter<String> a;
-
-    //ArrayAdapter(Context context, int resource, int textViewResourceId, String[] objects);
+    static boolean empty = true;
 
     public ForecastFragment()
     {
@@ -98,16 +97,20 @@ public class ForecastFragment extends Fragment
 
                 Intent intent = new Intent("naxess.practiceandroid.ExtraDetails");
                 int day = position;
-                String aa = (String)lv.getItemAtPosition(position);
-                try
+                if(empty == false)
                 {
-                    String testS = FetchWeatherTask.getWeatherFromJson(copyResultStrs, day);
-                    intent.putExtra("data",testS);
+                    try
+                    {
+                        String testS = FetchWeatherTask.getWeatherFromJson(copyResultStrs, day);
+                        intent.putExtra("data", testS);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
-                catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
+                else
+                    intent.putExtra("doorbell","nobodyHome");
                 startActivity(intent);
             }
         });
@@ -255,6 +258,7 @@ public class ForecastFragment extends Fragment
             {
                 Log.v(LOG_TAG, "Forecast entry: " + s);
             }
+            empty = false;
             return resultStrs;
         }
         private static String getWeatherFromJson(String [] copyResultStrs, int day) throws JSONException

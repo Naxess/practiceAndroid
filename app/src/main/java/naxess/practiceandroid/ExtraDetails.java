@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 public class ExtraDetails extends AppCompatActivity
 {
-    TextView sampleText;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,15 +39,16 @@ public class ExtraDetails extends AppCompatActivity
         });
         Intent intent = getIntent();
         String doorbell = intent.getStringExtra("doorbell");
-        if(doorbell == "nobodyhome")
+        if(doorbell.equalsIgnoreCase("nobodyHome"))
         {
-            sampleText = (TextView)findViewById(R.id.details);
-            sampleText.setText("Please enter a valid zip code.");
+            String nobodyHome = "Please enter a valid zip code.";
+            TextView sampleText = (TextView)findViewById(R.id.details);
+            sampleText.setText(nobodyHome);
         }
         else
         {
             String speed = intent.getStringExtra("data");
-            sampleText = (TextView)findViewById(R.id.details);
+            TextView sampleText = (TextView)findViewById(R.id.details);
             sampleText.setText(speed);
         }
     }

@@ -1,9 +1,11 @@
 package naxess.practiceandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,9 +44,11 @@ public class ForecastFragment extends Fragment
     EditText zipCode;
     Button testButton;
     ListView lv;
+    CheckBox checkBox;
     static String copyResultStrs [];
     static ArrayAdapter<String> a;
     static boolean empty = true;
+    static boolean saved = false;
 
     public ForecastFragment()
     {
@@ -54,6 +59,37 @@ public class ForecastFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        //loadSavedPreferences();
+    }
+    private void loadSavedPreferences()
+    {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean checkBoxValue = sharedPreferences.getBoolean("checked", false);
+        String lastZipCode = sharedPreferences.getString("saved", "savedZipCode");
+        if(checkBoxValue)
+        {
+            checkBox.setChecked(true);
+        }
+        else
+        {
+            checkBox.setChecked(false);
+        }
+        try
+        {
+            zipCode.setText(lastZipCode);
+        }
+        catch (NullPointerException e)
+        {
+            zipCode.setText("99999");
+        }
+
+    }
+    private void savePreferences(String key, String value)
+    {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key,value);
+        editor.commit();
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
@@ -89,29 +125,21 @@ public class ForecastFragment extends Fragment
 
         lv = (ListView) rootView.findViewById(R.id.listview_forecast);
         lv.setAdapter(a);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent("naxess.practiceandroid.ExtraDetails");
                 int day = position;
-                if(empty == false)
-                {
-                    intent.putExtra("doorbell","");
-                    try
-                    {
+                if (empty == false) {
+                    intent.putExtra("doorbell", "");
+                    try {
                         String testS = FetchWeatherTask.getWeatherFromJson(copyResultStrs, day);
                         intent.putExtra("data", testS);
-                    }
-                    catch (JSONException e)
-                    {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else if(empty == true)
-                {
+                } else if (empty == true) {
                     intent.putExtra("doorbell", "nobodyHome");
                 }
                 startActivity(intent);
@@ -129,6 +157,10 @@ public class ForecastFragment extends Fragment
                 try
                 {
                     String zipCodeString = zipCode.getText().toString();
+                    if(zipCodeString.equalsIgnoreCase(""))
+                    {
+                        loadSavedPreferences();
+                    }
                     FetchWeatherTask weatherTask = new FetchWeatherTask();
                     weatherTask.execute(zipCodeString);
                 }
@@ -146,6 +178,21 @@ public class ForecastFragment extends Fragment
             public void onClick(View v)
             {
                 zipCode.setText("");
+            }
+        });
+
+        checkBox = (CheckBox)rootView.findViewById(R.id.check_box);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkBox.isChecked())
+                {
+                    savePreferences("saved",zipCode.getText().toString());
+                }
+                else
+                {
+
+                }
             }
         });
 
